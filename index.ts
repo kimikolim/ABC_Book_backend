@@ -1,14 +1,20 @@
 import dotenv from "dotenv"
-import express, { Express, Request, Response } from "express"
+import 'reflect-metadata'
+import { Express, Request, Response } from "express"
 import mongoose from "mongoose"
+import { createExpressServer } from "routing-controllers";
+import { BookController } from "./controllers/book_controller";
 
 dotenv.config()
 
-const app: Express = express()
+const app = createExpressServer({
+    controllers: [BookController],
+  });
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Express + TypeScript Server")
-})
+
+// app.get("/", (req: Request, res: Response) => {
+//   res.send("Express + TypeScript Server")
+// })
 
 try {
   mongoose.connect(
