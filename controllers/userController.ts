@@ -43,16 +43,16 @@ export class UserController {
   }
 
   // @Authorized(['ADMIN'])
-  // @Put('/:id')
-  // updateUser(@Param('id') id: string, @Body() book: any) {
-  //   const result = this.userService.updateUserById(id, book);
-  //   return result;
-  // }
+  @Put('/:id')
+  updateUser(@Param('id') id: string, @Body() user: IUser) {
+    const result = this.userService.updateUserById(id, user);
+    return result;
+  }
 
   // @Authorized(['ADMIN'])
-  // @Delete('/:id')
-  // removeUser(@Param('id') id: string) {
-  //   const result = this.userService.deleteUserById(id);
-  //   return result;
-  // }
+  @Delete('/:id')
+  removeUser(@Param('id') id: string) {
+    const result = this.userService.deleteUserById(id);
+    return result;
+  }
 }
