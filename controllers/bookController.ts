@@ -13,10 +13,14 @@ import { IBook } from '../models/bookModel';
 import { BookService } from '../services/bookService';
 
 @JsonController('/books')
-// all the validations
-// mapping of request to service
-// mapping of service result to API response
-@Authorized()
+
+/**
+ * All the validations
+ * mapping request to service
+ * mapping service result to API response
+ */
+
+// @Authorized()
 export class BookController {
   private bookService = new BookService();
   @Get()
@@ -62,7 +66,7 @@ export class BookController {
 
   @Authorized(['ADMIN', 'EDITOR'])
   @Delete('/:id')
-  remove(@Param('id') id: string) {
+  removeBook(@Param('id') id: string) {
     const result = this.bookService.deleteBookById(id);
     return result;
   }

@@ -1,4 +1,4 @@
-import { ForbiddenError, NotFoundError } from 'routing-controllers';
+import { BadRequestError, ForbiddenError, NotFoundError } from 'routing-controllers';
 import { BookListResponse, BookResponse } from '../resources/bookResponse';
 
 import { Book, IBook } from '../models/bookModel';
@@ -28,7 +28,7 @@ export class BookService {
       const response = await newBook.save(); // writes to db
       return new BookResponse('Book successfully created', response);
     } catch (error) {
-      throw new ForbiddenError('Book was not created');
+      throw new BadRequestError('Book was not created');
     }
   }
 
@@ -55,7 +55,7 @@ export class BookService {
       const response = await Book.findByIdAndUpdate(id, book);
       return new BookResponse('Book updated', response!);
     } catch (error) {
-      throw new Error('Update failed');
+      throw new BadRequestError('Update failed');
     }
   }
 
@@ -64,7 +64,7 @@ export class BookService {
       const response = await Book.findByIdAndDelete(id);
       return new BookResponse('Book deleted', response!);
     } catch (error) {
-      throw new Error('Delete failed');
+      throw new BadRequestError('Delete failed');
     }
   }
 }

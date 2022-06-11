@@ -14,7 +14,7 @@ interface IBook {
 
 // 2. Create a Schema corresponding to the document interface.
 const bookSchema = new Schema<IBook>({
-  id: { type: String },
+  // id: { type: String },
   title: { type: String, required: true },
   description: { type: String, required: true },
   genre: { type: String, required: true },
