@@ -8,7 +8,7 @@ export enum Role {
   // eslint-disable-next-line no-unused-vars
   MEMBER = 'MEMBER',
 }
-// 1. Create an interface representing a document in MongoDB.
+// 1. Create an interface representing a user document in MongoDB.
 export interface IUser {
   id?: string
   name: string
@@ -17,9 +17,8 @@ export interface IUser {
   role: Role
 }
 
-// 2. Create a Schema corresponding to the document interface.
+// 2. Create a Schema corresponding to the user document interface.
 const userSchema = new Schema<IUser>({
-  // id: { type: String },
   name: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },

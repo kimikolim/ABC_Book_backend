@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-// 1. Create an interface representing a document in MongoDB.
+// 1. Create an interface representing book document in MongoDB.
 interface IBook {
   id?: string;
   title: string;
@@ -12,9 +12,8 @@ interface IBook {
   borrower: string;
 }
 
-// 2. Create a Schema corresponding to the document interface.
+// 2. Create a Schema corresponding to the book document interface.
 const bookSchema = new Schema<IBook>({
-  // id: { type: String },
   title: { type: String, required: true },
   description: { type: String, required: true },
   genre: { type: String, required: true },

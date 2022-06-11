@@ -6,7 +6,7 @@ import {
   Post,
   Put,
   Delete,
-  Authorized,
+  // Authorized,
 } from 'routing-controllers';
 import { IUser } from '../models/userModel';
 
