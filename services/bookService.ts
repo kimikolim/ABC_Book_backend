@@ -1,8 +1,7 @@
-import { ObjectId } from "mongoose"
-import { ForbiddenError } from "routing-controllers"
-import { BookResponse } from "../controllers/BookResponse"
+import { ForbiddenError, NotFoundError } from 'routing-controllers';
+import { BookListResponse, BookResponse } from '../resources/bookResponse';
 
-import { Book, IBook } from "../models/bookModel"
+import { Book, IBook } from '../models/bookModel';
 
 export class BookService {
   async createBook(book: IBook) {
@@ -14,7 +13,7 @@ export class BookService {
       yearPublished,
       availability,
       borrower,
-    } = book
+    } = book;
     const newBook = new Book({
       title,
       description,
@@ -23,51 +22,49 @@ export class BookService {
       yearPublished,
       availability,
       borrower,
-    })
+    });
 
     try {
-      const response = await newBook.save() // writes to db
-    //   console.log(book);
-    
-      return new BookResponse('Book successfully created', response)
+      const response = await newBook.save(); // writes to db
+      return new BookResponse('Book successfully created', response);
     } catch (error) {
-      throw new ForbiddenError("Book was not created")
+      throw new ForbiddenError('Book was not created');
     }
   }
 
   async getAllBooks() {
     try {
-      const response = await Book.find({})
-      return { status: "OK", response: response }
+      const response = await Book.find();
+      return new BookListResponse('Fetched all books', response);
     } catch (error) {
-      throw new ForbiddenError("Fetch Failed")
+      throw new ForbiddenError('Fetch Failed');
     }
   }
 
-  async getBookById(id: ObjectId) {
+  async getBookById(id: string) {
     try {
-      const response = await Book.findById({ _id: id })
-      return { status: "OK", response: response }
+      const response = await Book.findById({ _id: id });
+      return new BookResponse('something', response!);
     } catch (error) {
-      throw new Error("Book not found")
+      throw new NotFoundError('Book not found');
     }
   }
 
-  async updateBook(id: ObjectId, book: IBook) {
+  async updateBookById(id: string, book: IBook) {
     try {
-      const response = await Book.findByIdAndUpdate(id, book)
-      return { status: "OK", response: response }
+      const response = await Book.findByIdAndUpdate(id, book);
+      return new BookResponse('Book updated', response!);
     } catch (error) {
-      throw new Error("Update failed")
+      throw new Error('Update failed');
     }
   }
 
-  async deleteBook(id: ObjectId) {
+  async deleteBookById(id: string) {
     try {
-      const response = await Book.findByIdAndDelete(id)
-      return { status: "OK", response: response }
+      const response = await Book.findByIdAndDelete(id);
+      return new BookResponse('Book deleted', response!);
     } catch (error) {
-      throw new Error("Delete failed")
+      throw new Error('Delete failed');
     }
   }
 }

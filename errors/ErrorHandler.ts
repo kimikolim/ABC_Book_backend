@@ -5,8 +5,6 @@ import {
 } from 'routing-controllers';
 import { NextFunction, Request, Response } from 'express';
 import { ValidationError } from 'class-validator';
-
-
 @Middleware({
   type: 'after',
 })
@@ -27,7 +25,6 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
   ): void {
     let errorMessage = error.message;
     let httpCode = error.httpCode;
-    const errorId = error.errorId;
     console.error(`${error.stack}`);
     if (this.isRequestValidationError(error)) {
       errorMessage = ErrorHandler.REQUEST_VALIDATION_ERROR_MESSAGE;
@@ -46,7 +43,7 @@ export class ErrorHandler implements ExpressErrorMiddlewareInterface {
   private isRequestValidationError(error: any) {
     return (
       Array.isArray(error.errors) &&
-      error.errors.every((elem:any) => elem instanceof ValidationError)
+      error.errors.every((elem: any) => elem instanceof ValidationError)
     );
   }
 }
