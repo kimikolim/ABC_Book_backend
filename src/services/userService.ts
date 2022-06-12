@@ -13,7 +13,7 @@ export class UserService {
     try {
       return User.findOne({ email: email })
     } catch (error) {
-      throw new ForbiddenError('Invalid email. User was not found.')
+      throw new BadRequestError('Error: Unable to find user.')
     }
   }
 
@@ -41,7 +41,7 @@ export class UserService {
       const checkExistingUser = await this.getUserByEmail(user.email)
       // console.log(checkExistingUser)
       if (checkExistingUser) {
-        throw new ForbiddenError('Email already exists. Use another email.')
+        return new ForbiddenError('Email already exists. Use another email.')
       }
     } catch (error) {
       throw new HttpError(500, 'Server Error.')
@@ -72,7 +72,7 @@ export class UserService {
       })
       return new UserResponse('User Updated', response!)
     } catch (error) {
-      throw new BadRequestError('Update failed')
+      throw new HttpError(500, 'Update failed')
     }
   }
 
@@ -81,7 +81,7 @@ export class UserService {
       const response = await User.findByIdAndDelete(id)
       return new UserResponse('User deleted', response!)
     } catch (error) {
-      throw new BadRequestError('Delete failed')
+      throw new HttpError(500, 'Delete failed')
     }
   }
 }

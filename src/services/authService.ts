@@ -32,7 +32,7 @@ export class AuthService {
       const checkExistingUser = await new UserService().getUserByEmail(loginDto.email)
       // console.log(checkExistingUser);
       if (!checkExistingUser) {
-        throw new NotFoundError('Email does not exist. Invalid email.')
+        return new NotFoundError('Email does not exist. Invalid email.')
       }
       // Check if password match
       let isPasswordCorrect = false
@@ -42,12 +42,12 @@ export class AuthService {
           checkExistingUser.password,
         )
       } catch (error:any) {
-        throw new HttpError(500, error)
+        return new HttpError(500, error)
       }
 
       // If passoword is incorrect.
       if (!isPasswordCorrect) {
-        throw new ForbiddenError('Incorrect Password. Please try again.')
+        return new ForbiddenError('Incorrect Password. Please try again.')
       }
 
       /**

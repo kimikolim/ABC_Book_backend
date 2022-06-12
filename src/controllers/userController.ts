@@ -8,7 +8,7 @@ import {
   Delete,
   BadRequestError,
   InternalServerError,
-  // Authorized,
+  Authorized,
 } from 'routing-controllers'
 import { IUser } from '../models/userModel'
 import { UserService } from '../services/userService'
@@ -19,7 +19,7 @@ const bcrypt = require('bcryptjs')
 /**
  * Only Accessible by Admin and Editor
  */
-// @Authorized(['ADMIN', 'EDITOR'])
+@Authorized(['ADMIN', 'EDITOR'])
 export class UserController {
   private userService = new UserService()
   @Get()
@@ -38,7 +38,7 @@ export class UserController {
    * Only Admin can Add, remove or delete user.
    */
 
-  // @Authorized(['ADMIN'])
+  @Authorized(['ADMIN'])
   @Post('')
   async createUser(@Body() user: IUser) {
     // Joi validation of incoming body: IUser
@@ -76,14 +76,14 @@ export class UserController {
     return result
   }
 
-  // @Authorized(['ADMIN'])
+  @Authorized(['ADMIN'])
   @Put('/:id')
   updateUser(@Param('id') id: string, @Body() user: IUser) {
     const result = this.userService.updateUserById(id, user)
     return result
   }
 
-  // @Authorized(['ADMIN'])
+  @Authorized(['ADMIN'])
   @Delete('/:id')
   removeUser(@Param('id') id: string) {
     const result = this.userService.deleteUserById(id)

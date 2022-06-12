@@ -22,7 +22,7 @@ const { bookValidator } = require('../resources/bookValidation')
  * mapping service result to API response
  */
 
-// @Authorized()
+@Authorized()
 export class BookController {
   private bookService = new BookService()
   @Get()
@@ -37,7 +37,7 @@ export class BookController {
     return result
   }
 
-  // @Authorized(['ADMIN', 'EDITOR'])
+  @Authorized(['ADMIN', 'EDITOR'])
   @Post('')
   async createBook(@Body() book: IBook) {
     // Joi validation of incoming body: IBook
@@ -76,10 +76,7 @@ export class BookController {
     @Body() book: any,
   ) {
     console.log(user)
-    // Userid??
-    // const result = this.bookService.updateBookById(id, book);
-    // return result;
-
+    // Borrow Book Logic
     return 'OK'
   }
 
