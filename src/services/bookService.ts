@@ -48,7 +48,7 @@ export class BookService {
   async getBookById(id: string) {
     try {
       const response = await Book.findById({ _id: id })
-      return new BookResponse('something', response!)
+      return new BookResponse('Book found', response!)
     } catch (error) {
       throw new NotFoundError('Book not found')
     }

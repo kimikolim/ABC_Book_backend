@@ -5,19 +5,15 @@ import {
   NotFoundError,
 } from 'routing-controllers'
 
-import { IUser, Role, User } from '../models/userModel'
+import { IUser, User } from '../models/userModel'
 import { UserListResponse, UserResponse } from '../resources/userResponse'
 
 export class UserService {
   async getUserByEmail(email: string) {
     try {
-      return new User({
-        email: 'user@email.com',
-        password: 'test',
-        role: Role.ADMIN,
-      })
+      return User.findOne({ email: email })
     } catch (error) {
-      throw new ForbiddenError('Book was not created')
+      throw new ForbiddenError('Invalid email. User was not found.')
     }
   }
 
@@ -41,9 +37,8 @@ export class UserService {
 
   async createUser(user: IUser) {
     // Verify if email already exists
-    let checkExistingUser = null
     try {
-      checkExistingUser = await User.findOne({ email: user.email })
+      const checkExistingUser = await this.getUserByEmail(user.email)
       // console.log(checkExistingUser)
       if (checkExistingUser) {
         throw new ForbiddenError('Email already exists. Use another email.')

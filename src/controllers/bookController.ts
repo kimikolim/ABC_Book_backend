@@ -55,8 +55,16 @@ export class BookController {
 
   @Authorized(['ADMIN', 'EDITOR'])
   @Put('/:id')
-  updateBook(@Param('id') id: string, @Body() book: any) {
-    const result = this.bookService.updateBookById(id, book)
+  async updateBook(@Param('id') id: string, @Body() book: any) {
+    // Joi validation of incoming body: IBook
+    const validateNewBook = await bookValidator.validate(book)
+    if (validateNewBook.error) {
+      const message = validateNewBook.error.details[0].message
+      throw new BadRequestError(`${message}`)
+    }
+
+    const validatedBook = validateNewBook.value
+    const result = this.bookService.updateBookById(id, validatedBook)
     return result
   }
 

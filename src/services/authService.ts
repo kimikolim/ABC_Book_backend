@@ -1,15 +1,17 @@
-import { ForbiddenError } from 'routing-controllers';
+import { ForbiddenError, HttpError, NotFoundError } from 'routing-controllers'
 
-import * as jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken'
 
-import { LoginDTO } from '../dtos/loginDTO';
-import { IUser, Role, User } from '../models/userModel';
-import { LoginResponse } from '../resources/authResponse';
+import { LoginDTO } from '../dtos/loginDTO'
+import { IUser } from '../models/userModel'
+import { LoginResponse } from '../resources/authResponse'
+import { UserService } from './userService'
+const bcrypt = require('bcryptjs')
 
 export class AuthService {
   private generateToken(user: IUser) {
-    const JWT_SECRET = 'test';
-    const TOKEN_EXPIRY = '1d';
+    const JWT_SECRET = 'test'
+    const TOKEN_EXPIRY = '1d'
     const token = jwt.sign(
       {
         id: user.id,
@@ -20,27 +22,42 @@ export class AuthService {
       {
         expiresIn: TOKEN_EXPIRY,
       },
-    );
-    return token;
+    )
+    return token
   }
 
   async login(loginDto: LoginDTO) {
     try {
       // check if user exist
-      // check if password match
-      // generate jwt
-      // return jwt
+      const checkExistingUser = await new UserService().getUserByEmail(loginDto.email)
+      // console.log(checkExistingUser);
+      if (!checkExistingUser) {
+        throw new NotFoundError('Email does not exist. Invalid email.')
+      }
+      // Check if password match
+      let isPasswordCorrect = false
+      try {
+        isPasswordCorrect = await bcrypt.compareSync(
+          loginDto.password,
+          checkExistingUser.password,
+        )
+      } catch (error:any) {
+        throw new HttpError(500, error)
+      }
 
-      const token = this.generateToken( // pass in user details after checking if they exists
-        new User({
-          email: 'user@email.com',
-          password: 'test',
-          role: Role.ADMIN,
-        }),
-      );
-      return new LoginResponse('Login success', token);
+      // If passoword is incorrect.
+      if (!isPasswordCorrect) {
+        throw new ForbiddenError('Incorrect Password. Please try again.')
+      }
+
+      /**
+       * Generate JWT token and return
+       * Pass User details after checking if exists
+       */
+      const token = this.generateToken(checkExistingUser)
+      return new LoginResponse('Login success', token)
     } catch (error) {
-      throw new ForbiddenError('Book was not created');
+      throw new ForbiddenError('Login Fail. Please try again.')
     }
   }
 }
