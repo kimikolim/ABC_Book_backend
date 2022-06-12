@@ -1,6 +1,7 @@
 import {
   BadRequestError,
   ForbiddenError,
+  HttpError,
   NotFoundError,
 } from 'routing-controllers'
 
@@ -39,6 +40,19 @@ export class UserService {
   }
 
   async createUser(user: IUser) {
+    // Verify if email already exists
+    let checkExistingUser = null
+    try {
+      checkExistingUser = await User.findOne({ email: user.email })
+      // console.log(checkExistingUser)
+      if (checkExistingUser) {
+        throw new ForbiddenError('Email already exists. Use another email.')
+      }
+    } catch (error) {
+      throw new HttpError(500, 'Server Error.')
+    }
+
+    // New Account Creation
     const { name, email, password, role } = user
     const newUser = new User({
       name,

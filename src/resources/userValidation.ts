@@ -5,7 +5,7 @@ module.exports = {
   registerValidator: Joi.object({
     name: Joi.string().min(2).max(30).required(),
     email: Joi.string().email().required(),
-    role: Joi.string().valid(Role).required(),
+    role: Joi.string().valid(Role.ADMIN, Role.EDITOR, Role.MEMBER).required(),
     password: Joi.string().min(8).required(),
     confirmPassword: Joi.string().required(),
   }),
