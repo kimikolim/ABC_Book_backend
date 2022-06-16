@@ -9,7 +9,7 @@ interface IBook {
   author: string;
   yearPublished: number;
   availability: boolean;
-  borrower: string;
+  borrower?: string;
 }
 
 // 2. Create a Schema corresponding to the book document interface.

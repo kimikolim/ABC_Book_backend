@@ -19,15 +19,17 @@ const bcrypt = require('bcryptjs')
 /**
  * Only Accessible by Admin and Editor
  */
-@Authorized(['ADMIN', 'EDITOR'])
+@Authorized(['ADMIN'])
 export class UserController {
   private userService = new UserService()
+  @Authorized(['ADMIN', 'EDITOR'])
   @Get()
   getAll() {
     const result = this.userService.getAllUsers()
     return result
   }
 
+  @Authorized(['ADMIN', 'EDITOR'])
   @Get('/:id')
   getUserById(@Param('id') id: string) {
     const result = this.userService.getUserById(id)
@@ -38,7 +40,6 @@ export class UserController {
    * Only Admin can Add, remove or delete user.
    */
 
-  @Authorized(['ADMIN'])
   @Post('')
   async createUser(@Body() user: IUser) {
     // Joi validation of incoming body: IUser
@@ -76,14 +77,12 @@ export class UserController {
     return result
   }
 
-  @Authorized(['ADMIN'])
   @Put('/:id')
   updateUser(@Param('id') id: string, @Body() user: IUser) {
     const result = this.userService.updateUserById(id, user)
     return result
   }
 
-  @Authorized(['ADMIN'])
   @Delete('/:id')
   removeUser(@Param('id') id: string) {
     const result = this.userService.deleteUserById(id)

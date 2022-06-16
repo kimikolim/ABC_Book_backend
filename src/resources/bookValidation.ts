@@ -10,6 +10,6 @@ module.exports = {
     author: Joi.string().min(2).required(),
     yearPublished: Joi.number().integer().min(1800).max(currentYear).required(),
     availability: Joi.boolean().required(),
-    borrower: Joi.string()
+    borrower: Joi.string().min(0)
   }),
 }

@@ -5,8 +5,9 @@ import { createApp } from './app'
 import { configureAuthStrategy } from './passportHandler'
 
 dotenv.config()
+const MONGO_URI = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`
 
-/**
+/*
  * createApp() contains createExpressServer
  * controllers, middlewares
  * defaultErrorHandler, authorization checker, current user checker
@@ -16,10 +17,7 @@ const app = createApp()
 configureAuthStrategy()
 try {
   mongoose.set('returnOriginal', false)
-  mongoose.connect(
-    `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.53dfgw3.mongodb.net/${process.env.DB}?retryWrites=true&w=majority`,
-  )
-
+  mongoose.connect(MONGO_URI)
   console.log('connected to database')
   app.listen(process.env.PORT, () => {
     console.log(

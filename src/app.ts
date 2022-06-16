@@ -12,6 +12,7 @@ import { Role } from './models/userModel'
 
 export const createApp = () => {
   const app = createExpressServer({
+    cors: true,
     controllers: [BookController, AuthController, UserController],
     defaultErrorHandler: false,
     middlewares: [ErrorHandler],

@@ -27,7 +27,6 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDTO) {
-    try {
       // check if user exist
       const checkExistingUser = await new UserService().getUserByEmail(loginDto.email)
       // console.log(checkExistingUser);
@@ -56,8 +55,5 @@ export class AuthService {
        */
       const token = this.generateToken(checkExistingUser)
       return new LoginResponse('Login success', token)
-    } catch (error) {
-      throw new ForbiddenError('Login Fail. Please try again.')
-    }
   }
 }

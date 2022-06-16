@@ -8,7 +8,7 @@ class Book {
   author: string
   yearPublished: number
   availability: boolean
-  borrower: string
+  borrower?: string
   constructor(book: IBook) {
     this.id = book.id ?? ''
     this.title = book.title

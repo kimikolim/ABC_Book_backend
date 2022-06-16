@@ -13,6 +13,7 @@ export class AuthController {
   private authService = new AuthService()
   @Post()
   async login(@Body() loginDto: LoginDTO) {
+    // Joi validation
     const validateLoginDto = await loginValidator.validate(loginDto)
     if (validateLoginDto.error) {
       const message = validateLoginDto.error.details[0].message

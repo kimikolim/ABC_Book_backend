@@ -31,6 +31,7 @@ export class UserService {
       const response = await User.findById({ _id: id })
       return new UserResponse('Single User Found', response!)
     } catch (error) {
+      console.error(error);
       throw new NotFoundError('User not found')
     }
   }
