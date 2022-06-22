@@ -71,4 +71,26 @@ export class BookService {
       throw new BadRequestError('Delete failed')
     }
   }
+
+  async setBorrowerById(bookId: string, userId: string) {
+    try {
+      const response = await Book.findByIdAndUpdate(bookId, {
+        $set: { borrower: userId, availability: false },
+      })
+      return new BookResponse('Book Borrowed', response!)
+    } catch (error: any) {
+      throw new BadRequestError('Borrow Failed')
+    }
+  }
+
+  async setBookReturnById(bookId: string) {
+    try {
+      const response = await Book.findByIdAndUpdate(bookId, {
+        $set: { borrower: '', availability: true },
+      })
+      return new BookResponse('Book returned', response!)
+    } catch (error: any) {
+      throw new BadRequestError('Borrow Failed')
+    }
+  }
 }

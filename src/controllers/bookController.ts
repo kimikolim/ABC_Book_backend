@@ -68,16 +68,26 @@ export class BookController {
     return result
   }
 
-  @Authorized(['ADMIN', 'EDITOR', 'MEMBER'])
+  // @Authorized(['ADMIN', 'EDITOR', 'MEMBER'])
   @Put('/borrow/:id')
   borrowBook(
     @CurrentUser() user: any,
     @Param('id') id: string,
-    @Body() book: any,
   ) {
-    console.log(user)
     // Borrow Book Logic
-    return 'OK'
+    const result = this.bookService.setBorrowerById(id, user.id)
+    return result
+  }
+
+  // @Authorized(['ADMIN', 'EDITOR', 'MEMBER'])
+  @Put('/return/:id')
+  returnBook(
+    @CurrentUser() user: any,
+    @Param('id') id: string,
+  ) {
+    // Borrow Book Logic
+    const result = this.bookService.setBookReturnById(id)
+    return result
   }
 
   @Authorized(['ADMIN', 'EDITOR'])
