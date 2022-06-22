@@ -7,13 +7,11 @@ import {
   Put,
   Delete,
   BadRequestError,
-  InternalServerError,
   Authorized,
 } from 'routing-controllers'
 import { IUser } from '../models/userModel'
 import { UserService } from '../services/userService'
 const { registerValidator } = require('../resources/userValidation')
-const bcrypt = require('bcryptjs')
 
 @JsonController('/user')
 /**
@@ -54,22 +52,11 @@ export class UserController {
       throw new BadRequestError('Passwords did not match. Please try again.')
     }
 
-    // Generate Hash Password w bcrypt
-    let hashPassword = ''
-    try {
-      hashPassword = await bcrypt.hashSync(validatedNewUser.password, 10)
-    } catch (error) {
-      throw new InternalServerError(`${error}`)
-    }
-    if (hashPassword === '') {
-      throw new InternalServerError('Oops, something went wrong.')
-    }
-
     // Send only hashed password to createUser service
     const validatedNewAccount: IUser = {
       name: validatedNewUser.name,
       email: validatedNewUser.email,
-      password: hashPassword,
+      password: validateNewUser.password,
       role: validatedNewUser.role,
     }
 

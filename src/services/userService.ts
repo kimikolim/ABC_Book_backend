@@ -2,11 +2,13 @@ import {
   BadRequestError,
   ForbiddenError,
   HttpError,
+  InternalServerError,
   NotFoundError,
 } from 'routing-controllers'
 
 import { IUser, User } from '../models/userModel'
 import { UserListResponse, UserResponse } from '../resources/userResponse'
+const bcrypt = require('bcryptjs')
 
 export class UserService {
   async getUserByEmail(email: string) {
@@ -48,12 +50,23 @@ export class UserService {
       throw new HttpError(500, 'Server Error.')
     }
 
+     // Generate Hash Password w bcrypt
+     let hashPassword = ''
+     try {
+       hashPassword = await bcrypt.hashSync(user.password, 10)
+     } catch (error) {
+       throw new InternalServerError(`${error}`)
+     }
+     if (hashPassword === '') {
+       throw new InternalServerError('Oops, something went wrong.')
+     }
+
     // New Account Creation
-    const { name, email, password, role } = user
+    const { name, email, role } = user
     const newUser = new User({
       name,
       email,
-      password,
+      password: hashPassword,
       role,
     })
 
