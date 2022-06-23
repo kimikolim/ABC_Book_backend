@@ -53,7 +53,7 @@ SUPER_ADMIN_PASSWORD=password
 
 
 
-![Overview](https://github.com/kimikolim/ABC_Book_frontend/blob/master/public/uploads/React_structure.jpg?raw=true)
+![Structure](https://github.com/kimikolim/ABC_Book_backend/blob/master/public/folder_structure.jpg?raw=true)
 
 
 &nbsp;
