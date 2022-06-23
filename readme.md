@@ -41,6 +41,23 @@ SUPER_ADMIN_PASSWORD=password
 
 &nbsp;
 
+## Structure Overview
+#### Folders
+
+<strong><em>controllers</em></strong> - contains list of app routes and associate them to a controller that contains implementation code.\
+<strong><em>models</em></strong> - plain objects that represent business entities..\
+<strong><em>resources</em></strong> - contains classes with response DTOs that used to encapsulate data and Joi validators.\
+<strong><em>services</em></strong> - functions that contains code that interacts with MongoDB directly.\
+<strong><em>dtos</em></strong> - data transfer objects used to encapsulate and transfer data between functions.\
+<strong><em>errors</em></strong> - custom error middleware handler.
+
+
+
+![Overview](https://github.com/kimikolim/ABC_Book_frontend/blob/master/public/uploads/React_structure.jpg?raw=true)
+
+
+&nbsp;
+
 ## Backend (EXPRESS)
 Package Name | Description
 --- | ---
@@ -94,6 +111,7 @@ Due to time constrains, several of the following should be implemented and impro
 1. Analytics
 1. Data Validation
 1. Unit testing
+1. Modular folder re-structure
 
 
 

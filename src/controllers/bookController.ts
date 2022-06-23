@@ -68,7 +68,7 @@ export class BookController {
     return result
   }
 
-  // @Authorized(['ADMIN', 'EDITOR', 'MEMBER'])
+  @Authorized(['ADMIN', 'EDITOR', 'MEMBER'])
   @Put('/borrow/:id')
   borrowBook(
     @CurrentUser() user: any,
@@ -79,7 +79,7 @@ export class BookController {
     return result
   }
 
-  // @Authorized(['ADMIN', 'EDITOR', 'MEMBER'])
+  @Authorized(['ADMIN', 'EDITOR', 'MEMBER'])
   @Put('/return/:id')
   returnBook(
     @CurrentUser() user: any,
