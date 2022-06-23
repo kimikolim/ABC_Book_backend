@@ -9,13 +9,18 @@ export const initializer = async () => {
   }
 
   const userService = new UserService()
-  const user = await userService.getUserByEmail(superAdminEmail)
-  if (!user) {
-    await userService.createUser({
-      name: 'Admin',
-      email: superAdminEmail,
-      password: superAdminPassword,
-      role: Role.ADMIN,
-    })
+
+  try {
+    const result = await userService.getUserByEmail(superAdminEmail)
+    if (!result) {
+      await userService.createUser({
+        name: 'Admin',
+        email: superAdminEmail,
+        password: superAdminPassword,
+        role: Role.ADMIN,
+      })
+    }
+  } catch (error: any) {
+    console.error('Create Admin account initializer error.')
   }
 }

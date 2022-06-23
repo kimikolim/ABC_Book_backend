@@ -6,7 +6,7 @@ import { configureAuthStrategy } from './passportHandler'
 import { initializer } from './initializer'
 
 dotenv.config()
-const MONGO_URI = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/${process.env.DB_NAME}`
+const MONGO_URI = `mongodb://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}/admin`
 
 /*
  * createApp() contains createExpressServer

@@ -3,6 +3,18 @@ A book fan club, ABC Book, allows its members to borrow books from the club. Due
 
 &nbsp;
 
+In the project directory, you can run:
+
+### `npm install`
+### `docker-compose up`
+
+Runs the app in the development mode.\
+Open docker desktop and ensure mongo_db is running on `port:27017` and express backend is running on `port:3001`
+
+The server will reload if you make edits.
+
+&nbsp;
+
 ## System Requirements
 1. NodeJS
 1. MongoDB
@@ -11,16 +23,18 @@ A book fan club, ABC Book, allows its members to borrow books from the club. Due
 
 ## Environment variables (Example)
 ```
-PORT=<your input>
-USERNAME=<your input>
-PASSWORD=<your input>
-DB=<your input>
+PORT=3001
+DB_USERNAME=mongo_user
+DB_PASSWORD=mongo_password
+DB_HOST=mongo_db
+SUPER_ADMIN_EMAIL=super@admin.com
+SUPER_ADMIN_PASSWORD=password
 ```
 
 &nbsp;
 
 ## &#x1F34E;  Features
-1. Full CRUD of user account and books
+1. Full CRUD of users and books
 1. Login Authorisation
 1. User and Book Role-restriction management 
 
@@ -45,12 +59,12 @@ joi | Object schema validation
 
 Type | Controller | Route | Allow |Description
 --- | --- | --- | --- | ---
-**GET** | /books | /  | ALL | enter description here.
-**GET** | /books | /:id | ALL | enter description here.
-**POST** | /books | / | ADMIN, EDITOR | enter description here.
-**PUT** | /books | /:id | ADMIN, EDITOR | enter description here.
-**PUT** | /books | /borrow/:id | ALL | enter description here.
-**DELETE** | /books | /:id | ADMIN , EDITOR | enter description here.
+**GET** | /books | /  | ALL | retrieves all books from db.
+**GET** | /books | /:id | ALL | finds and retrieves a single book from db.
+**POST** | /books | / | ADMIN, EDITOR | create a new book.
+**PUT** | /books | /:id | ADMIN, EDITOR | edit the details of an existing book.
+**PUT** | /books | /borrow/:id | ALL | changes the book availabiliy to false and records the current user's Id
+**DELETE** | /books | /:id | ADMIN , EDITOR | removes a single book in the db, if available.
 
 
 &nbsp;
@@ -59,11 +73,11 @@ Type | Controller | Route | Allow |Description
 
 Type | Controller | Route | Allow |Description
 --- | --- | --- | --- | ---
-**GET** | /user | /  | ADMIN, EDITOR | enter description here.
-**GET** | /user | /:id | ADMIN, EDITOR | enter description here.
-**POST** | /user | / | ADMIN | enter description here.
-**PUT** | /user | /:id | ADMIN | enter description here.
-**DELETE** | /user | /:id | ADMIN | enter description here.
+**GET** | /user | /  | ADMIN, EDITOR | retrieves all the current users in the app.
+**GET** | /user | /:id | ADMIN, EDITOR | finds and retrieves a single user.
+**POST** | /user | / | ADMIN | create a new user account.
+**PUT** | /user | /:id | ADMIN | edit details of an existing user.
+**DELETE** | /user | /:id | ADMIN | removes a single user in the db.
 
 &nbsp;
 
@@ -71,19 +85,17 @@ Type | Controller | Route | Allow |Description
 
 Type | Controller | Route | Allow |Description
 --- | --- | --- | --- | ---
-**POST** | /login | / | ALL | enter description here.
+**POST** | /login | / | ALL | checks login credentials and returns jwt token upon successful login.
 
 &nbsp;
 
-## Future Improvements
-1. Input 1
-1. Input 2
+## Improvements
+Due to time constrains, several of the following should be implemented and improved upon as features/best practices
+1. Analytics
+1. Data Validation
+1. Unit testing
 
-&nbsp;
 
-## &#x1F4D9; Challenges faced
-1. Backend Data Architecture
-1. Relational Models with MongoDB
 
 &nbsp;
 
