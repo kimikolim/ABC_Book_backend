@@ -47,6 +47,7 @@ export class UserController {
       throw new BadRequestError(`${message}`)
     }
     const validatedNewUser = validateNewUser.value
+
     // Check if passwords match
     if (validatedNewUser.password !== validatedNewUser.confirmPassword) {
       throw new BadRequestError('Passwords did not match. Please try again.')
@@ -56,7 +57,7 @@ export class UserController {
     const validatedNewAccount: IUser = {
       name: validatedNewUser.name,
       email: validatedNewUser.email,
-      password: validateNewUser.password,
+      password: validatedNewUser.password,
       role: validatedNewUser.role,
     }
 
